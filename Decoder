@@ -1,0 +1,26 @@
+from PIL import Image
+f_name = input("Type in the name of the artpiece: ")
+enc_img = Image.open(f_name + ".png")
+enc_pixelMap = enc_img.load()
+msg = ""
+msg_index = 0
+lvl = input("Please enter the rarity level: ")
+code = input("Please enter the code: ")
+for row in range(enc_img.size[0]):
+    for col in range(enc_img.size[1]):
+        list = enc_pixelMap[row,col]
+        r = list[lvl] # R value
+        if col==0 and row==0: # 1st pixel was used to store the lenght of message
+            msg_len = int(code)         
+        elif msg_len>msg_index:	 # Reading the message from R value of pixel
+            msg =msg + chr(r) # Converting to character
+        msg_index = msg_index+1
+
+enc_img.close()
+
+print("The hidden message is :\n\n")
+print(msg)
+
+f = open("Hidden.txt", "w")
+f.write(msg)
+f.close()
